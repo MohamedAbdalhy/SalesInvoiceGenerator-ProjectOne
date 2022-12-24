@@ -3,16 +3,16 @@ package controller;
 import java.util.ArrayList;
 
 import model.*;
-import view.GUI;
+import view.MyGUI;
 
 public class InvoicesLineController {
 
-    public static void updater(GUI gui, ArrayList<InvoiceHeader> invoices, int selectedRow) {
+    public static void updater(MyGUI myGui, ArrayList<InvoiceHeader> invoices, int selectedRow) {
         if (selectedRow != -1) {
-            gui.getInvoiceNumberLabel().setText(Integer.toString(invoices.get(selectedRow).getInoviceNumber()));
-            gui.getInvoiceDateTextField().setText(gui.getDate().format(invoices.get(selectedRow).getInoviceDate()));
-            gui.getCustomerNameTextField().setText(invoices.get(selectedRow).getInoviceCustomerName());
-            gui.getInvoiceTotalLabel().setText(Float.toString(invoices.get(selectedRow).getInoviceTotal()));
+            myGui.getInvoiceNumberLabel().setText(Integer.toString(invoices.get(selectedRow).getInoviceNumber()));
+            myGui.getInvoiceDateTextField().setText(myGui.getDate().format(invoices.get(selectedRow).getInoviceDate()));
+            myGui.getCustomerNameTextField().setText(invoices.get(selectedRow).getInoviceCustomerName());
+            myGui.getInvoiceTotalLabel().setText(Float.toString(invoices.get(selectedRow).getInoviceTotal()));
         }
     }
 
@@ -45,73 +45,73 @@ public class InvoicesLineController {
 //        }
 //    }
 
-    public static void changeCustomerNameTextField(GUI gui, ArrayList<InvoiceHeader> invoices) {
-        int choice = gui.showYesNoCancelDialog(gui.getInvoicesItemsPanel(), "Do you want to save new customer name?", "Confirmation");
+    public static void changeCustomerNameTextField(MyGUI myGui, ArrayList<InvoiceHeader> invoices) {
+        int choice = myGui.showYesNoCancelDialog(myGui.getInvoicesItemsPanel(), "Do you want to save new customer name?", "Confirmation");
         switch (choice) {
             case 0 -> {
-                invoices.get(gui.getInvoiceTable().getSelectedRow()).setInoviceCustomerName(gui.getCustomerNameTextField().getText());
-                InvoicesHeaderController.updateCustomerNameCoulmn(gui, invoices);
-                gui.getCustomerNameTextField().requestFocus();
+                invoices.get(myGui.getInvoiceTable().getSelectedRow()).setInoviceCustomerName(myGui.getCustomerNameTextField().getText());
+                InvoicesHeaderController.updateCustomerNameCoulmn(myGui, invoices);
+                myGui.getCustomerNameTextField().requestFocus();
             }
             case 1 ->
-                gui.getCustomerNameTextField().requestFocus();
+                myGui.getCustomerNameTextField().requestFocus();
             default -> {
-                gui.getCustomerNameTextField().setText(invoices.get(mainController.selectedRow).getInoviceCustomerName());
-                gui.getCustomerNameTextField().requestFocus();
+                myGui.getCustomerNameTextField().setText(invoices.get(mainController.selectedRow).getInoviceCustomerName());
+                myGui.getCustomerNameTextField().requestFocus();
             }
         }
     }
 
-    static void addNewItem(GUI gui, ArrayList<InvoiceHeader> invoices) {
+    static void addNewItem(MyGUI myGui, ArrayList<InvoiceHeader> invoices) {
         String itemName;
         float price = 0;
         int count = 0;
 
         boolean flag = false;
-        itemName = gui.getNewItemName().getText();
+        itemName = myGui.getNewItemName().getText();
 
         if (itemName.equalsIgnoreCase("")) {
-            GUI.getAddItemDialog().setVisible(false);
-            GUI.setJOptionPaneMessagMessage(gui.getInvoicesItemsPanel(), "Please enter a valid name", "Empty Item Name", "ERROR_MESSAGE");
-            showNewItemDialog(gui);
-        } else if (gui.getNewItemPrice().getText().equalsIgnoreCase("")) {
-            GUI.getAddItemDialog().setVisible(false);
-            GUI.setJOptionPaneMessagMessage(gui.getInvoicesItemsPanel(), "Please enter a price", "Empty Price", "ERROR_MESSAGE");
-            showNewItemDialog(gui);
+            MyGUI.getAddItemDialog().setVisible(false);
+            MyGUI.setJOptionPaneMessagMessage(myGui.getInvoicesItemsPanel(), "Please enter a valid name", "Empty Item Name", "ERROR_MESSAGE");
+            showNewItemDialog(myGui);
+        } else if (myGui.getNewItemPrice().getText().equalsIgnoreCase("")) {
+            MyGUI.getAddItemDialog().setVisible(false);
+            MyGUI.setJOptionPaneMessagMessage(myGui.getInvoicesItemsPanel(), "Please enter a price", "Empty Price", "ERROR_MESSAGE");
+            showNewItemDialog(myGui);
         } else {
             
             try {
-                price = Float.parseFloat(gui.getNewItemPrice().getText());
-                gui.getNewItemPriceSpinner().commitEdit();
-                count = (Integer) gui.getNewItemPriceSpinner().getValue();
+                price = Float.parseFloat(myGui.getNewItemPrice().getText());
+                myGui.getNewItemPriceSpinner().commitEdit();
+                count = (Integer) myGui.getNewItemPriceSpinner().getValue();
             } catch (Exception e) {
                 flag = true;
                 e.printStackTrace();
             }
 
             if (!flag) {
-                InvoiceHeader temp = invoices.get(gui.getInvoiceTable().getSelectedRow());
+                InvoiceHeader temp = invoices.get(myGui.getInvoiceTable().getSelectedRow());
                 InvoiceLine newItem = new InvoiceLine(itemName, price, count, temp);
                 temp.getInvoicerow().add(newItem);
             }
 
-            gui.getNewItemName().setText("");
-            gui.getNewItemPrice().setText("");
-            gui.getNewItemPriceSpinner().setValue((Object) 1);
+            myGui.getNewItemName().setText("");
+            myGui.getNewItemPrice().setText("");
+            myGui.getNewItemPriceSpinner().setValue((Object) 1);
         }
     }
 
-    static void showNewItemDialog(GUI gui) {
-        gui.setLocations();
-        GUI.getAddItemDialog().setTitle("Add new item to invoice " + gui.getInvoiceNumberLabel().getText());
-        GUI.getAddItemDialog().setVisible(true);
+    static void showNewItemDialog(MyGUI myGui) {
+        myGui.setLocations();
+        MyGUI.getAddItemDialog().setTitle("Add new item to invoice " + myGui.getInvoiceNumberLabel().getText());
+        MyGUI.getAddItemDialog().setVisible(true);
     }
 
-    static void deleteItem(GUI gui, ArrayList<InvoiceHeader> invoices) {
-        if (gui.getInvoicesLineTable().getSelectedRow() >= 0) {
+    static void deleteItem(MyGUI myGui, ArrayList<InvoiceHeader> invoices) {
+        if (myGui.getInvoicesLineTable().getSelectedRow() >= 0) {
             int rowToBeDeleted;
-            rowToBeDeleted = gui.getInvoicesLineTable().getSelectedRow();
-            invoices.get(gui.getInvoiceTable().getSelectedRow()).getInvoicerow().remove(rowToBeDeleted);
+            rowToBeDeleted = myGui.getInvoicesLineTable().getSelectedRow();
+            invoices.get(myGui.getInvoiceTable().getSelectedRow()).getInvoicerow().remove(rowToBeDeleted);
         }
     }
 }

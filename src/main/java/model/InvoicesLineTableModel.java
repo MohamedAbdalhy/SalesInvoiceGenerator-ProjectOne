@@ -2,15 +2,15 @@ package model;
 
 import javax.swing.table.DefaultTableModel;
 
-import view.GUI;
+import view.MyGUI;
 
 
 public class InvoicesLineTableModel {
 
-    public static DefaultTableModel setInvoicesLineTableModel(GUI gui) {
+    public static DefaultTableModel setInvoicesLineTableModel(MyGUI myGui) {
         DefaultTableModel newTable = new DefaultTableModel() {};
-        newTable = (DefaultTableModel) gui.getInvoicesLineTable().getModel();
-        gui.getInvoicesLineTable().setDefaultEditor(Object.class, null);
+        newTable = (DefaultTableModel) myGui.getInvoicesLineTable().getModel();
+        myGui.getInvoicesLineTable().setDefaultEditor(Object.class, null);
         return newTable;
     }
 }

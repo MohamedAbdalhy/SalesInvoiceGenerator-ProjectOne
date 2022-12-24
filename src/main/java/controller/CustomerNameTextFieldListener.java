@@ -2,13 +2,13 @@ package controller;
 
 import java.awt.event.*;
 
-import view.GUI;
+import view.MyGUI;
 
 public class CustomerNameTextFieldListener implements ActionListener {
 
-    private GUI view = null;
+    private MyGUI view = null;
 
-    public CustomerNameTextFieldListener(GUI view) {
+    public CustomerNameTextFieldListener(MyGUI view) {
         this.view = view;
     }
 

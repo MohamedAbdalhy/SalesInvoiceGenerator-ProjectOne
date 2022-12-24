@@ -9,14 +9,14 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        GUI gui;
-        gui = new GUI();
-        gui.setVisible(true);
-        gui.setLocations();
-        gui.setResizable(false);
-        gui.loadFiles();
-       gui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        MyGUI myGui;
+        myGui = new MyGUI();
+        myGui.loadFiles();
+        myGui.setVisible(true);
+        myGui.setLocations();
+        myGui.setResizable(false);
+       myGui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        new mainController(new InvoiceHeader(), new InvoiceLine(), gui);
+        new mainController(new InvoiceHeader(), new InvoiceLine(), myGui);
     }
 }

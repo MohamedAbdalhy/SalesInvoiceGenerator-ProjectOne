@@ -7,23 +7,22 @@ import java.util.Date;
 import javax.swing.JFileChooser;
 
 import com.google.common.io.Files;
-import view.GUI;
+import view.MyGUI;
 import controller.mainController;
 public class fileOperations {
 
-    //initialize files
     public static File InvoiceHeaderFile = new File(System.getProperty("user.dir") + "/InvoiceHeader.csv");
     public static File InvoiceLineFile = new File(System.getProperty("user.dir") + "/InvoiceLine.csv");
     public static SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
-    private GUI gui;
+    private MyGUI myGui;
 
-    public fileOperations(GUI gui) {
-        this.gui = gui;
+    public fileOperations(MyGUI myGui) {
+        this.myGui = myGui;
     }
     public void getPath() {
         String fileExtension;
         JFileChooser fc = new JFileChooser();
-        int result = fc.showOpenDialog(gui);
+        int result = fc.showOpenDialog(myGui);
         if(result==JFileChooser.APPROVE_OPTION){
             String path = fc.getSelectedFile().getPath();
 
@@ -34,7 +33,7 @@ public class fileOperations {
             }
             else
             {
-                GUI.setJOptionPaneMessagMessage(gui, "Wrong file extension", "Invoice header", "Error_Message");
+                MyGUI.setJOptionPaneMessagMessage(myGui, "Wrong file extension", "Invoice header", "Error_Message");
                 getPath();
             }
         }
@@ -87,8 +86,8 @@ public class fileOperations {
                     }
 
                     invoiceCustomerName = invoicesHeader[2];
-                    gui.getDate().setLenient(false);
-                    invoiceDate = gui.getDate().parse(invoiceDateStr);
+                    myGui.getDate().setLenient(false);
+                    invoiceDate = myGui.getDate().parse(invoiceDateStr);
                     invoiceNumber = Integer.parseInt(invoiceNumberStr);
                     header = new InvoiceHeader(invoiceNumber, invoiceDate, invoiceCustomerName);
                     invoices.add(header);
@@ -103,7 +102,7 @@ public class fileOperations {
             InvoiceHeaderFile = null;
             InvoiceLineFile = null;
             invoices.clear();
-            GUI.setJOptionPaneMessagMessage(gui, "Data in this file is in wrong format,choose another file", "Error", "ERROR_MESSAGE");
+            MyGUI.setJOptionPaneMessagMessage(myGui, "Data in this file is in wrong format,choose another file", "Error", "ERROR_MESSAGE");
             getPath();
         }
 
@@ -151,7 +150,7 @@ public class fileOperations {
             InvoiceLineFile = null;
 
             invoices.clear();
-            GUI.setJOptionPaneMessagMessage(gui, "Data in this file is in wrong format,choose another file", "Error", "ERROR_MESSAGE");
+            MyGUI.setJOptionPaneMessagMessage(myGui, "Data in this file is in wrong format,choose another file", "Error", "ERROR_MESSAGE");
             getPath();
         }
         return invoices;
@@ -197,7 +196,7 @@ public class fileOperations {
             }
         }
 
-        GUI.setJOptionPaneMessagMessage(gui, "New data is saved", "Saved", "INFORMATION_MESSAGE");
+        MyGUI.setJOptionPaneMessagMessage(myGui, "New data is saved", "Saved", "INFORMATION_MESSAGE");
         fileWriter.close();
 
     }

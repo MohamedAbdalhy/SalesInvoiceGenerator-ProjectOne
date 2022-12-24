@@ -1,16 +1,13 @@
 package controller;
 
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import view.GUI;
+import view.MyGUI;
 
 
 public class InvoicesLineTableListener  {
 
-    private GUI view = null;
+    private MyGUI view = null;
 
-    public InvoicesLineTableListener(GUI view) {
+    public InvoicesLineTableListener(MyGUI view) {
         this.view = view;
     }
 }
