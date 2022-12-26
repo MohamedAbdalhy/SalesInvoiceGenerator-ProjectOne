@@ -7,16 +7,17 @@ import java.util.Date;
 import javax.swing.JFileChooser;
 
 import com.google.common.io.Files;
-import view.MyGUI;
+import view.GUI;
+import view.GUI;
 import controller.mainController;
 public class fileOperations {
 
     public static File InvoiceHeaderFile = new File(System.getProperty("user.dir") + "/InvoiceHeader.csv");
     public static File InvoiceLineFile = new File(System.getProperty("user.dir") + "/InvoiceLine.csv");
     public static SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
-    private MyGUI myGui;
+    private GUI myGui;
 
-    public fileOperations(MyGUI myGui) {
+    public fileOperations(GUI myGui) {
         this.myGui = myGui;
     }
     public void getPath() {
@@ -33,7 +34,7 @@ public class fileOperations {
             }
             else
             {
-                MyGUI.setJOptionPaneMessagMessage(myGui, "Wrong file extension", "Invoice header", "Error_Message");
+                GUI.setJOptionPaneMessagMessage(myGui, "Wrong file extension", "Invoice header", "Error_Message");
                 getPath();
             }
         }
@@ -102,7 +103,7 @@ public class fileOperations {
             InvoiceHeaderFile = null;
             InvoiceLineFile = null;
             invoices.clear();
-            MyGUI.setJOptionPaneMessagMessage(myGui, "Data in this file is in wrong format,choose another file", "Error", "ERROR_MESSAGE");
+            GUI.setJOptionPaneMessagMessage(myGui, "Data in this file is in wrong format,choose another file", "Error", "ERROR_MESSAGE");
             getPath();
         }
 
@@ -150,7 +151,7 @@ public class fileOperations {
             InvoiceLineFile = null;
 
             invoices.clear();
-            MyGUI.setJOptionPaneMessagMessage(myGui, "Data in this file is in wrong format,choose another file", "Error", "ERROR_MESSAGE");
+            GUI.setJOptionPaneMessagMessage(myGui, "Data in this file is in wrong format,choose another file", "Error", "ERROR_MESSAGE");
             getPath();
         }
         return invoices;
@@ -196,7 +197,7 @@ public class fileOperations {
             }
         }
 
-        MyGUI.setJOptionPaneMessagMessage(myGui, "New data is saved", "Saved", "INFORMATION_MESSAGE");
+        GUI.setJOptionPaneMessagMessage(myGui, "New data is saved", "Saved", "INFORMATION_MESSAGE");
         fileWriter.close();
 
     }

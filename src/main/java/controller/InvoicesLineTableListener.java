@@ -1,13 +1,13 @@
 package controller;
 
-import view.MyGUI;
+import view.GUI;
 
 
 public class InvoicesLineTableListener  {
 
-    private MyGUI view = null;
+    private GUI view = null;
 
-    public InvoicesLineTableListener(MyGUI view) {
+    public InvoicesLineTableListener(GUI view) {
         this.view = view;
     }
 }

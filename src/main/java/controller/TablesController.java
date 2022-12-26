@@ -4,12 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import model.*;
-import view.MyGUI;
+import view.GUI;
+import view.GUI;
 
 
 public class TablesController {
 
-    public static void loadInvoicesHeaderTable(MyGUI myGui, ArrayList<InvoiceHeader> invoices) {
+    public static void loadInvoicesHeaderTable(GUI myGui, ArrayList<InvoiceHeader> invoices) {
         String pattern = "MM-dd-yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Object InvoiceHeaderData[] = new Object[4];
@@ -29,7 +30,7 @@ public class TablesController {
         }
     }
 
-    public static void loadInvoicesLineTable(MyGUI myGui, ArrayList<InvoiceHeader> invoices) {
+    public static void loadInvoicesLineTable(GUI myGui, ArrayList<InvoiceHeader> invoices) {
             float total;
             Object InvoiceLineData[] = new Object[5];
             int selectedRow = myGui.getInvoiceTable().getSelectedRow();

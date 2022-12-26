@@ -9,8 +9,8 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        MyGUI myGui;
-        myGui = new MyGUI();
+       GUI myGui;
+        myGui = new GUI();
         myGui.loadFiles();
         myGui.setVisible(true);
         myGui.setLocations();

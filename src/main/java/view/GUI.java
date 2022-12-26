@@ -1,24 +1,38 @@
 package view;
 
-import java.util.ArrayList;
-import javax.swing.*;
+
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.text.SimpleDateFormat;
-import model.fileOperations;
-import model.InvoiceHeader;
-import model.InvoicesHeaderTableModel;
-import model.InvoicesLineTableModel;
+import javax.swing.*;
+
+import model.*;
 import controller.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 
-public class MyGUI extends JFrame {
+public class GUI extends JFrame {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        GUI gui = new GUI();
+        gui.setVisible(true);
+        gui.setLocations();
+        gui.setResizable(false);
+        gui.loadFiles();
+        new mainController(new InvoiceHeader(), new InvoiceLine(), gui);
+        gui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
 
     JFileChooser chooser;
     JOptionPane jOptionPaneMessage;
     private SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+    private model.fileOperations fileOperations = new fileOperations(this);
 
+    private JButton AddItemButton;
+    private static JDialog AddItemDialog;
+    private JButton AddItemDialogCancel;
     public JButton AddItemDialogOK;
     private JButton CreateNewInvoiceButton;
     private JButton CreateNewInvoiceCancel;
@@ -28,10 +42,6 @@ public class MyGUI extends JFrame {
     private JTextField CustomerNameTextField;
     private JButton DeleteInvoiceButton;
     private JButton DeleteItemButton;
-    private model.fileOperations fileOperations = new fileOperations(this);
-    private JButton AddItemButton;
-    private static JDialog AddItemDialog;
-    private JButton AddItemDialogCancel;
     private JMenu FileMenu;
     private JLabel InvoiceDateLabel;
     private JTextField InvoiceDateTextField;
@@ -61,6 +71,25 @@ public class MyGUI extends JFrame {
     private JSpinner NewItemPriceSpinner;
     private JMenuItem SaveFile;
     private JPopupMenu.Separator jSeparator1;
+
+
+
+
+    public JTextField getCustomerNameTextField() {
+        return CustomerNameTextField;
+    }
+
+    public JButton getDeleteItemButton() {
+        return DeleteItemButton;
+    }
+
+    public JTextField getInvoiceDateTextField() {
+        return InvoiceDateTextField;
+    }
+
+    public JLabel getInvoiceTotalLabel() {
+        return InvoiceTotalLabel;
+    }
     public JMenuItem getLoadFile() {
         return LoadFile;
     }
@@ -76,66 +105,15 @@ public class MyGUI extends JFrame {
     public JButton getAddItemButton() {
         return AddItemButton;
     }
-
-    public JTextField getCustomerNameTextField() {
-        return CustomerNameTextField;
-    }
-
-    public JPanel getInvoicesTablePanel() {
-        return InvoicesTablePanel;
-    }
-
-    public JTextField getNewInvoiceDateField() {
-        return NewInvoiceDateField;
-    }
-
-    public JButton getDeleteItemButton() {
-        return DeleteItemButton;
-    }
-
-    public JTextField getInvoiceDateTextField() {
-        return InvoiceDateTextField;
-    }
-
-    public JLabel getInvoiceTotalLabel() {
-        return InvoiceTotalLabel;
-    }
-
     public JMenuItem getSaveFile() {
         return SaveFile;
     }
 
-    public JButton getCreateNewInvoiceButton() {
-        return CreateNewInvoiceButton;
-    }
 
-    public JButton getDeleteInvoiceButton() {
-        return DeleteInvoiceButton;
-    }
 
     public JLabel getInvoiceNumberLabel() {
         return InvoiceNumberLabel;
     }
-
-    public SimpleDateFormat getDate() {
-        return date;
-    }
-
-    public JPanel getInvoicesItemsPanel() {
-        return InvoicesItemsPanel;
-    }
-    public static JDialog getNewInvoiceDialog() {
-        return CreateNewInvoiceDialog;
-    }
-
-    public static JDialog getAddItemDialog() {
-        return AddItemDialog;
-    }
-
-    public JButton getAddItemDialogCancel() {
-        return AddItemDialogCancel;
-    }
-
     public JButton getCreateNewInvoiceOK() {
         return CreateNewInvoiceOK;
     }
@@ -161,17 +139,52 @@ public class MyGUI extends JFrame {
     public JTextField getNewItemPrice() {
         return NewItemPrice;
     }
+    public SimpleDateFormat getDate() {
+        return date;
+    }
+
+    public JPanel getInvoicesItemsPanel() {
+        return InvoicesItemsPanel;
+    }
+
+    public JPanel getInvoicesTablePanel() {
+        return InvoicesTablePanel;
+    }
+
+    public JTextField getNewInvoiceDateField() {
+        return NewInvoiceDateField;
+    }
+
+    public static JDialog getNewInvoiceDialog() {
+        return CreateNewInvoiceDialog;
+    }
+    public JButton getCreateNewInvoiceButton() {
+        return CreateNewInvoiceButton;
+    }
+
+    public JButton getDeleteInvoiceButton() {
+        return DeleteInvoiceButton;
+    }
+    public static JDialog getAddItemDialog() {
+        return AddItemDialog;
+    }
+
+    public JButton getAddItemDialogCancel() {
+        return AddItemDialogCancel;
+    }
+
+
     public static void setJOptionPaneMessagMessage(Component component, String message, String title, String messageType) {
         int messageTypeInteger = 0;
         switch (messageType) {
             case "ERROR_MESSAGE" ->
-                messageTypeInteger = 0;
+                    messageTypeInteger = 0;
             case "QUESTION_MESSAGE" ->
-                messageTypeInteger = 3;
+                    messageTypeInteger = 3;
             case "WARNING_MESSAGE" ->
-                messageTypeInteger = 2;
+                    messageTypeInteger = 2;
             case "INFORMATION_MESSAGE" ->
-                messageTypeInteger = 1;
+                    messageTypeInteger = 1;
         }
         JOptionPane.showMessageDialog(component, message, title, messageTypeInteger);
     }
@@ -184,17 +197,6 @@ public class MyGUI extends JFrame {
         AddItemDialog.setLocation(InvoicesLineTable.getLocationOnScreen().x + 100, InvoicesLineTable.getLocationOnScreen().y);
     }
 
-
-    public MyGUI() {
-        initComponents();
-
-        chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV files", "csv");
-        chooser.setFileFilter(filter);
-        jOptionPaneMessage = new JOptionPane();
-        setNames();
-
-    }
     public void loadFiles() throws FileNotFoundException {
         while (InvoicesHeaderTableModel.setInvoicesHeaderTableModel(this).getRowCount() > 0) {
             InvoicesHeaderTableModel.setInvoicesHeaderTableModel(this).removeRow(0);
@@ -211,6 +213,16 @@ public class MyGUI extends JFrame {
         InvoicesHeaderController.calculateInvoiceTableTotal(mainController.invoices);
         TablesController.loadInvoicesHeaderTable(this, mainController.invoices);
         fileOperations.getMaxNumberOfExistedInvoices(mainController.maxNumberOfExistedInvoices, mainController.invoices);
+
+    }
+    public GUI() {
+        initComponents();
+
+        chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV files", "csv");
+        chooser.setFileFilter(filter);
+        jOptionPaneMessage = new JOptionPane();
+        setNames();
 
     }
     private void frameGui(){
@@ -253,6 +265,58 @@ public class MyGUI extends JFrame {
         CreateNewInvoiceDialog.setMinimumSize(new java.awt.Dimension(400, 200));
         CreateNewInvoiceDialog.setModal(true);
         CreateNewInvoiceDialog.setSize(new java.awt.Dimension(100, 100));
+    }
+    private void invoiceHeaderGUI(){
+        NewCustomerNameLabel.setText("Customer Name:");
+        NewInvoiceDateField.setEditable(true);
+        NewInvoiceDateLabel.setText("Invoice Date:");
+        CreateNewInvoiceOK.setText("OK");
+        CreateNewInvoiceCancel.setText("Cancel");
+        CreateNewInvoiceButton.setText("Create New Invoice");
+        InvoicesTablePanel.add(CreateNewInvoiceButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 570, -1, -1));
+        DeleteInvoiceButton.setText("Delete Invoice");
+        InvoicesTablePanel.add(DeleteInvoiceButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 570, -1, -1));
+        DeleteInvoiceButton.setFont(new Font("Arial", Font.BOLD, 12));
+
+        InvoiceTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+
+                },
+                new String [] {
+                        "No.", "Date", "Customer", "Total"
+                }
+        ));
+        InvoiceTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        InvoiceTableScrollPane.setViewportView(InvoiceTable);
+        if (InvoiceTable.getColumnModel().getColumnCount() > 0) {
+            InvoiceTable.getColumnModel().getColumn(0).setResizable(false);
+        }
+        InvoiceTable.getAccessibleContext().setAccessibleName("InvoiceTable");
+
+        InvoicesTablePanel.add(InvoiceTableScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 69, 540, 480));
+
+        getContentPane().add(InvoicesTablePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 650));
+
+        InvoicesItemsPanel.setPreferredSize(new java.awt.Dimension(521, 472));
+        InvoicesItemsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        InvoiceNumberStaticLabel.setText("Invoice Number");
+        InvoicesItemsPanel.add(InvoiceNumberStaticLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+        InvoiceNumberStaticLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        InvoicesItemsPanel.add(InvoiceNumberLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 6, -1, -1));
+        InvoiceNumberLabel.setFont(new Font("Arial", Font.BOLD, 12));
+
+        InvoiceDateLabel.setText("Invoice Date");
+        InvoicesItemsPanel.add(InvoiceDateLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 44, -1, -1));
+        InvoiceDateLabel.setFont(new Font("Arial", Font.BOLD, 12));
+
+        CustomerNameLabel.setText("Customer Name");
+        InvoicesItemsPanel.add(CustomerNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 85, -1, -1));
+        CustomerNameLabel.setFont(new Font("Arial", Font.BOLD, 12));
+
+        InvoiceTotalStaticLabel.setText("Invoice Total");
+        InvoicesItemsPanel.add(InvoiceTotalStaticLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 123, -1, -1));
+        InvoiceTotalStaticLabel.setFont(new Font("Arial", Font.BOLD, 12));
     }
     private void itemInvoiceGui(){
         AddItemDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -411,58 +475,6 @@ public class MyGUI extends JFrame {
         );
 
     }
-    private void invoiceHeaderGUI(){
-        NewCustomerNameLabel.setText("Customer Name:");
-        NewInvoiceDateField.setEditable(true);
-        NewInvoiceDateLabel.setText("Invoice Date:");
-        CreateNewInvoiceOK.setText("OK");
-        CreateNewInvoiceCancel.setText("Cancel");
-        CreateNewInvoiceButton.setText("Create New Invoice");
-        InvoicesTablePanel.add(CreateNewInvoiceButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 570, -1, -1));
-        DeleteInvoiceButton.setText("Delete Invoice");
-        InvoicesTablePanel.add(DeleteInvoiceButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 570, -1, -1));
-        DeleteInvoiceButton.setFont(new Font("Arial", Font.BOLD, 12));
-
-        InvoiceTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-
-                },
-                new String [] {
-                        "No.", "Date", "Customer", "Total"
-                }
-        ));
-        InvoiceTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        InvoiceTableScrollPane.setViewportView(InvoiceTable);
-        if (InvoiceTable.getColumnModel().getColumnCount() > 0) {
-            InvoiceTable.getColumnModel().getColumn(0).setResizable(false);
-        }
-        InvoiceTable.getAccessibleContext().setAccessibleName("InvoiceTable");
-
-        InvoicesTablePanel.add(InvoiceTableScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 69, 540, 480));
-
-        getContentPane().add(InvoicesTablePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 650));
-
-        InvoicesItemsPanel.setPreferredSize(new java.awt.Dimension(521, 472));
-        InvoicesItemsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        InvoiceNumberStaticLabel.setText("Invoice Number");
-        InvoicesItemsPanel.add(InvoiceNumberStaticLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
-        InvoiceNumberStaticLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        InvoicesItemsPanel.add(InvoiceNumberLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 6, -1, -1));
-        InvoiceNumberLabel.setFont(new Font("Arial", Font.BOLD, 12));
-
-        InvoiceDateLabel.setText("Invoice Date");
-        InvoicesItemsPanel.add(InvoiceDateLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 44, -1, -1));
-        InvoiceDateLabel.setFont(new Font("Arial", Font.BOLD, 12));
-
-        CustomerNameLabel.setText("Customer Name");
-        InvoicesItemsPanel.add(CustomerNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 85, -1, -1));
-        CustomerNameLabel.setFont(new Font("Arial", Font.BOLD, 12));
-
-        InvoiceTotalStaticLabel.setText("Invoice Total");
-        InvoicesItemsPanel.add(InvoiceTotalStaticLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 123, -1, -1));
-        InvoiceTotalStaticLabel.setFont(new Font("Arial", Font.BOLD, 12));
-    }
     private void fontStyle(){
         InvoicesTableLabel.setFont(new Font("Arial", Font.BOLD, 12));
         InvoiceNumberStaticLabel.setFont(new Font("Arial", Font.BOLD, 12));
@@ -482,30 +494,37 @@ public class MyGUI extends JFrame {
 
         CreateNewInvoiceDialog = new JDialog();
         NewCustomerName = new JTextField();
-        NewItemName = new JTextField();
-        NewItemNameLabel = new JLabel();
-        NewItemPriceLabel = new JLabel();
-        AddItemDialogOK = new JButton();
-        AddItemDialogCancel = new JButton();
         NewCustomerNameLabel = new JLabel();
         NewInvoiceDateField = new JTextField();
         NewInvoiceDateLabel = new JLabel();
         CreateNewInvoiceOK = new JButton();
         CreateNewInvoiceCancel = new JButton();
         AddItemDialog = new JDialog();
+        NewItemName = new JTextField();
+        NewItemNameLabel = new JLabel();
+        NewItemPriceLabel = new JLabel();
+        AddItemDialogOK = new JButton();
+        AddItemDialogCancel = new JButton();
         NewItemPrice = new JTextField();
         NewItemPriceSpinner = new JSpinner();
         NewItemCountLabel = new JLabel();
         InvoicesTablePanel = new JPanel();
-        InvoiceDateLabel = new JLabel();
-        CustomerNameLabel = new JLabel();
-        InvoiceTotalStaticLabel = new JLabel();
-        InvoicesItemsLabel = new JLabel();
         InvoicesTableLabel = new JLabel();
         CreateNewInvoiceButton = new JButton();
         DeleteInvoiceButton = new JButton();
         InvoiceTableScrollPane = new JScrollPane();
         InvoiceTable = new JTable();
+        InvoicesItemsPanel = new JPanel();
+        InvoiceNumberStaticLabel = new JLabel();
+        InvoiceNumberLabel = new JLabel();
+        InvoiceDateLabel = new JLabel();
+        CustomerNameLabel = new JLabel();
+        InvoiceTotalStaticLabel = new JLabel();
+        InvoicesItemsLabel = new JLabel();
+        InvoiceDateTextField = new JTextField();
+        CustomerNameTextField = new JTextField();
+        InvoiceTotalLabel = new JLabel();
+        InvoicesLineTableScrollPane = new JScrollPane();
         InvoicesLineTable = new JTable();
         DeleteItemButton = new JButton();
         AddItemButton = new JButton();
@@ -514,29 +533,19 @@ public class MyGUI extends JFrame {
         LoadFile = new JMenuItem();
         SaveFile = new JMenuItem();
         jSeparator1 = new JPopupMenu.Separator();
-        InvoicesItemsPanel = new JPanel();
-        InvoiceNumberStaticLabel = new JLabel();
-        InvoiceNumberLabel = new JLabel();
-
-        InvoiceDateTextField = new JTextField();
-        CustomerNameTextField = new JTextField();
-        InvoiceTotalLabel = new JLabel();
-        InvoicesLineTableScrollPane = new JScrollPane();
-
-
-
+        //calling GUI methods
         invoiceDialogGUI();
         invoiceHeaderComponentLayout();
         fontStyle();
         itemComponentLayout();
+        fontStyle();
+        ((JSpinner.DefaultEditor) NewItemPriceSpinner.getEditor()).getTextField().setEditable(false);
+        frameGui();
         invoiceTableGUI();
         invoiceHeaderGUI();
         itemInvoiceGui();
         fileMenuGUI();
         pack();
-        fontStyle();
-        ((JSpinner.DefaultEditor) NewItemPriceSpinner.getEditor()).getTextField().setEditable(false);
-        frameGui();
-
     }
+
 }

@@ -3,11 +3,12 @@ package controller;
 import java.util.ArrayList;
 
 import model.*;
-import view.MyGUI;
+import view.GUI;
+import view.GUI;
 
 public class InvoicesLineController {
 
-    public static void updater(MyGUI myGui, ArrayList<InvoiceHeader> invoices, int selectedRow) {
+    public static void updater(GUI myGui, ArrayList<InvoiceHeader> invoices, int selectedRow) {
         if (selectedRow != -1) {
             myGui.getInvoiceNumberLabel().setText(Integer.toString(invoices.get(selectedRow).getInoviceNumber()));
             myGui.getInvoiceDateTextField().setText(myGui.getDate().format(invoices.get(selectedRow).getInoviceDate()));
@@ -45,7 +46,7 @@ public class InvoicesLineController {
 //        }
 //    }
 
-    public static void changeCustomerNameTextField(MyGUI myGui, ArrayList<InvoiceHeader> invoices) {
+    public static void changeCustomerNameTextField(GUI myGui, ArrayList<InvoiceHeader> invoices) {
         int choice = myGui.showYesNoCancelDialog(myGui.getInvoicesItemsPanel(), "Do you want to save new customer name?", "Confirmation");
         switch (choice) {
             case 0 -> {
@@ -62,7 +63,7 @@ public class InvoicesLineController {
         }
     }
 
-    static void addNewItem(MyGUI myGui, ArrayList<InvoiceHeader> invoices) {
+    static void addNewItem(GUI myGui, ArrayList<InvoiceHeader> invoices) {
         String itemName;
         float price = 0;
         int count = 0;
@@ -71,12 +72,12 @@ public class InvoicesLineController {
         itemName = myGui.getNewItemName().getText();
 
         if (itemName.equalsIgnoreCase("")) {
-            MyGUI.getAddItemDialog().setVisible(false);
-            MyGUI.setJOptionPaneMessagMessage(myGui.getInvoicesItemsPanel(), "Please enter a valid name", "Empty Item Name", "ERROR_MESSAGE");
+            GUI.getAddItemDialog().setVisible(false);
+            GUI.setJOptionPaneMessagMessage(myGui.getInvoicesItemsPanel(), "Please enter a valid name", "Empty Item Name", "ERROR_MESSAGE");
             showNewItemDialog(myGui);
         } else if (myGui.getNewItemPrice().getText().equalsIgnoreCase("")) {
-            MyGUI.getAddItemDialog().setVisible(false);
-            MyGUI.setJOptionPaneMessagMessage(myGui.getInvoicesItemsPanel(), "Please enter a price", "Empty Price", "ERROR_MESSAGE");
+            GUI.getAddItemDialog().setVisible(false);
+            GUI.setJOptionPaneMessagMessage(myGui.getInvoicesItemsPanel(), "Please enter a price", "Empty Price", "ERROR_MESSAGE");
             showNewItemDialog(myGui);
         } else {
             
@@ -101,13 +102,13 @@ public class InvoicesLineController {
         }
     }
 
-    static void showNewItemDialog(MyGUI myGui) {
+    static void showNewItemDialog(GUI myGui) {
         myGui.setLocations();
-        MyGUI.getAddItemDialog().setTitle("Add new item to invoice " + myGui.getInvoiceNumberLabel().getText());
-        MyGUI.getAddItemDialog().setVisible(true);
+        GUI.getAddItemDialog().setTitle("Add new item to invoice " + myGui.getInvoiceNumberLabel().getText());
+        GUI.getAddItemDialog().setVisible(true);
     }
 
-    static void deleteItem(MyGUI myGui, ArrayList<InvoiceHeader> invoices) {
+    static void deleteItem(GUI myGui, ArrayList<InvoiceHeader> invoices) {
         if (myGui.getInvoicesLineTable().getSelectedRow() >= 0) {
             int rowToBeDeleted;
             rowToBeDeleted = myGui.getInvoicesLineTable().getSelectedRow();

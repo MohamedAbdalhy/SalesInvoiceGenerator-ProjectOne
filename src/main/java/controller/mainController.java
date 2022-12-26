@@ -9,13 +9,14 @@ import java.awt.event.KeyListener;
 import model.fileOperations;
 import model.InvoiceHeader;
 import model.InvoiceLine;
-import view.MyGUI;
+import view.GUI;
+import view.GUI;
 
 public class mainController implements ActionListener, KeyListener {
 
     private InvoiceHeader invoiceHeader;
     private InvoiceLine invoiceLine;
-    private MyGUI myGui;
+    private GUI myGui;
     private model.fileOperations fileOperations;
     private TablesController loadTablesContents;
 
@@ -28,7 +29,7 @@ public class mainController implements ActionListener, KeyListener {
     //private InvoiceDateTextFieldListener invoiceDateTextFieldListener;
     private CustomerNameTextFieldListener customerNameTextFieldListener;
 
-    public mainController(InvoiceHeader invoiceHeader, InvoiceLine invoiceLine, MyGUI myGui) {
+    public mainController(InvoiceHeader invoiceHeader, InvoiceLine invoiceLine, GUI myGui) {
         this.invoiceHeader = invoiceHeader;
         this.invoiceLine = invoiceLine;
         this.myGui = myGui;
@@ -49,7 +50,7 @@ public class mainController implements ActionListener, KeyListener {
         
     }
 
-    private void turnOnAllActionListerners(MyGUI myGui) {
+    private void turnOnAllActionListerners(GUI myGui) {
         myGui.getLoadFile().addActionListener(fileMenuItemsListener);
         myGui.getLoadFile().setActionCommand("Load Files");
 
@@ -112,7 +113,7 @@ public class mainController implements ActionListener, KeyListener {
             //hide new invoice dialog box
                 myGui.getNewCustomerName().setText("");
                 myGui.getNewInvoiceDateField().setText("");
-                MyGUI.getNewInvoiceDialog().setVisible(false);
+                GUI.getNewInvoiceDialog().setVisible(false);
             }
 
         if (e.getActionCommand().equals( "Delete Invoice")) {
@@ -138,14 +139,14 @@ public class mainController implements ActionListener, KeyListener {
 
                 int sizeOfinvoicesLinesForTheSelectedInvoice = invoices.get(myGui.getInvoiceTable().getSelectedRow()).getInvoicerow().size();
                 myGui.getInvoicesLineTable().setRowSelectionInterval((sizeOfinvoicesLinesForTheSelectedInvoice - 1), (sizeOfinvoicesLinesForTheSelectedInvoice - 1));
-                MyGUI.getAddItemDialog().setVisible(false);
+                GUI.getAddItemDialog().setVisible(false);
             }
 
         if (e.getActionCommand().equals( "Discard adding an item")) {
                 myGui.getNewItemName().setText("");
                 myGui.getNewItemPrice().setText("");
                 myGui.getNewItemPriceSpinner().setValue((Object) 1);
-                MyGUI.getAddItemDialog().setVisible(false);
+               GUI.getAddItemDialog().setVisible(false);
             }
 
         if (e.getActionCommand().equals( "Delete Item")) {

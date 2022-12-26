@@ -5,14 +5,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import model.*;
-import view.MyGUI;
+import view.GUI;
 public class FileMenuItemsListener implements ActionListener{
 
     private model.fileOperations fileOperations;
     private InvoiceTableListener invoiceTableListener;
-    private MyGUI myGui;
+    private GUI myGui;
 
-    public FileMenuItemsListener(MyGUI myGui, model.fileOperations fileOperations, InvoiceTableListener invoiceTableListener) {
+    public FileMenuItemsListener(GUI myGui, model.fileOperations fileOperations, InvoiceTableListener invoiceTableListener) {
         this.myGui = myGui;
         this.fileOperations = fileOperations;
         this.invoiceTableListener = invoiceTableListener;
